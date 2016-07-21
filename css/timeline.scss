@@ -57,13 +57,13 @@
 }
 
 .timeline>li .timeline-image {
-    z-index: 100;
+    z-index: 500;
     position: absolute;
     left: 0;
-    width: 80px;
-    height: 80px;
+    width: 500px;
+    height: 500px;
     margin-left: 0;
-    border: 7px solid #f1f1f1;
+    border: 5px solid #f1f1f1;
     border-radius: 100%;
     text-align: center;
     color: #fff;
