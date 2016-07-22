@@ -72,7 +72,6 @@ print "Number of Houses: ", obs
 df_boston.describe()
 ```
 
-![img](img/Boston/data.png)
 <img src = "https://tsmith5151.github.io/Blog/img/Boston/data.png">
 
 ### Data Exploration
@@ -184,12 +183,16 @@ if __name__ == "__main__":
 ```
 
 ![](/img/Boston/histogram1.png)
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/histogram1.png">
 
 ![](/img/Boston/correlation.png)
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/correlation.png">
 
 ![](/img/Boston/scatterplots.png)
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/scatterplots.png">
 
 ![](/img/Boston/ptratio_tax.png)
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/ptratio_tax.png">
 
 
 ### Training & Testing Data
@@ -219,12 +222,11 @@ Accuracy, Precision, Recall, F1 score, Mean Squared Error (MSE), and Mean Absolu
 
 ***Mean Squarred Error***             
 
-![](/img/Boston/learning_curve_5.png) 
-
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/learning_curve_5.png">
 
 ***Mean Absolute Error***
 
-![](/img/Boston/learning_curve_mae_5.png)
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/learning_curve_mae_5.png">
 
 ```python
 def performance_metric(label, prediction):
@@ -236,16 +238,7 @@ def performance_metric(label, prediction):
 
 ### Simple Linear Regression
 
-Let's discuss Linear regression first. The slope for this case would be  
-
-Regression model: w0 + w1X1 + E1
-
-![](/img/Boston/SLR.png)
-
-The prediction for Y is a straight-line function of each of the X variables, holding the others fixed, and the contributions of different X variables to the predictions are additive.  The slopes of their individual straight-line relationships with Y are the constants b1, b2, …, bk, the so-called coefficients of the variables.   That is, bi is the change in the predicted value of Y per unit of change in Xi, other things being equal.
-
-
-Here is how we can implement Linear Regression in the Boston Housing dataset to fit the best relationship between X & Y. The relationship between Crime (X) and the MEDV (Y) is explored:
+We can implement Linear Regression to the Boston Housing dataset by fitting the best relationship between X & Y. The relationship between Crime (X) and the MEDV (Y) is explored below:
 
 ```python
 def linear_reg(x_train,x_test,y_train,y_test,feat_val):
@@ -313,7 +306,7 @@ if __name__ == "__main__":
     main()
 ```
 
-![](/img/Boston/linreg.png)
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/linreg.png">
 
 
 ### Multiple Linear Regression
@@ -340,7 +333,7 @@ if __name__ == "__main__":
     main()
 ```
 
-![](/img/Boston/mreg.png)
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/mreg.png">
 
 ### Regression Tree
 
@@ -407,11 +400,11 @@ data.
 
 ***Depth = 1***               
 
-![](/img/Boston/learning_curve_1.png)  
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/learning_curve_1.png">
 
 ***Depth = 10***
 
-![](/img/Boston/learning_curve_10.png)
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/learning_curve_10.png">
 
 
 **What is the max depth for the model? As the size of the training set increases, what happens to the training error? Describe what happens to the testing error.**
@@ -429,15 +422,15 @@ is `4`.
 
 ***Max Depth = 3*** 
 
-![](/img/Boston/learning_curve_3.png)  
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/learning_curve_3.png">
 
 ***Max Depth = 4***
 
-![](/img/Boston/learning_curve_4.png) 
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/learning_curve_4.png">
 
 ***Max Depth = 5***
 
-![](/img/Boston/learning_curve_5.png)
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/learning_curve_5.png">
 
 ### Model Complexity
 
@@ -608,8 +601,7 @@ plateaus and is no longer decreasing, additional knowledge is not gained on the
 out-of-sample data. If the error does not reduce any further during testing,
 then the complexity is increased for no reason and therefore overfitting occurs.
 
-![](/img/Boston/Model.Complexity.png)
-
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/Model.Complexity.png">
 
 **Using grid search, what is the optimal max depth for your model? How does this result compare to your initial intuition?**
 
@@ -690,10 +682,11 @@ consistent around `$21,500`.
 
 ***Max_Depth***          
 
-<img src = "/img/Boston/Gridsearch_MaxDepth_Hist.png">
-<!-- ![](/img/Boston/Gridsearch_MaxDepth_Hist.png)
- -->
- 
+
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/Gridsearch_MaxDepth_Hist.png">
+
+
+
 ***Predicted Prices***
 
-![](/img/Boston/Gridsearch_Prices_Hist.png)
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/Gridsearch_Prices_Hist.png">
