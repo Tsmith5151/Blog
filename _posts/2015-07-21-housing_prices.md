@@ -73,7 +73,7 @@ df_boston.describe()
 ```
 
 ![img](img/Boston/data.png)
-
+<img srg = "https://tsmith5151.github.io/Blog/img/Boston/data.png">
 
 ### Data Exploration
 
