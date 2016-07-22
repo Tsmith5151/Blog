@@ -44,16 +44,6 @@ background-img: "../img/austin.jpg"
 # Dynamic Text on the Header #
 ##############################
 
-dynamic-typing: True
-shuffle: True # Shuffle the lines.
-loop: True
-loop-count: False # Set False for infinite loop, or set any number for finite loop.
-type-speed: 10
-start-delay: 200
-delete-delay: 5000
-lines: # You can add HTML Tags in the Text
-  - text: "Welcome to my blog and personal website!"
-  - text: "Check out my latest post covering Machine Learning topics"
 me-img: "/img/author.png"
 
 ##############################
@@ -95,6 +85,7 @@ linkedin-share: True
 disqus-shortname: "Trace"
 
 syntax-highlight: True
+
 
 ###########
 # Contact #
@@ -141,6 +132,7 @@ social:
 pages_list:
   About: 'about'
   Blog: 'latest-post'
+  Projects: 'project'
   Contact: 'contact'
 
 # Exclusion list from the generated _site
