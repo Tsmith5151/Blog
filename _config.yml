@@ -12,7 +12,7 @@ url: "https://tsmith5151.github.io"
 #
 # NB! Without this *nothing* will work, because it's used in every path :)
 
-baseurl: /blog
+baseurl: /
 
 # Google tracking id
 
@@ -38,7 +38,7 @@ keywords: "smith, personal, jekyll, theme"
 # Header layout #
 ################
 
-background-img: "../img/austin.jpg"
+background-img: "/img/austin.jpg"
 
 ##############################
 # Dynamic Text on the Header #
