@@ -182,16 +182,16 @@ if __name__ == "__main__":
     plot3()
 ```
 
-![](/img/Boston/histogram1.png)
+
 <img src = "https://tsmith5151.github.io/Blog/img/Boston/histogram1.png">
 
-![](/img/Boston/correlation.png)
+
 <img src = "https://tsmith5151.github.io/Blog/img/Boston/correlation.png">
 
-![](/img/Boston/scatterplots.png)
+
 <img src = "https://tsmith5151.github.io/Blog/img/Boston/scatterplots.png">
 
-![](/img/Boston/ptratio_tax.png)
+
 <img src = "https://tsmith5151.github.io/Blog/img/Boston/ptratio_tax.png">
 
 
