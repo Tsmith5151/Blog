@@ -72,7 +72,7 @@ print "Number of Houses: ", obs
 df_boston.describe()
 ```
 
-![img](/img/Boston/data.png)
+![img](img/Boston/data.png)
 
 
 ### Data Exploration
