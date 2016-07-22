@@ -6,7 +6,7 @@ category: technology
 tags: [ 'machine learning' ]
 ---
 
-# Boston Housing Prices
+The Boston housing market is highly competitive, and the goal is to be one of the best real estate agents in the area. To compete in the real estate market, a few basic machine learning concepts are applied in order to assist a client with finding the best selling price for their home. The Boston Housing dataset which contains aggregated data on various features for houses in Greater Boston communities, including the median value of homes for each of those areas. The objective is to build an optimal model based on a statistical analysis with the tools available and then utilize this model to estimate the best selling price for the client's home. Additional information on the Boston Housing dataset can be found here. The source code developed for this project can be found in the ipython notebook boston_housing.ipynb and the complete repo can be found [`here`](https://github.com/Tsmith5151/Boston-Housing-Prices)
 
 The objective of this workbook is to generate an optimal model based on
 statistical analysis with the tools available to estimate the best selling price
@@ -42,7 +42,9 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.pipeline import make_pipeline
 ```
 
-# Explore Data
+
+### Explore  The Data
+
 
 ```python
 #Load boston dataset
@@ -57,21 +59,21 @@ attributes = boston.feature_names #feature names
 df_data = pd.DataFrame(housing_features, columns = attributes)
 df_target = pd.DataFrame(housing_prices, columns =['MEDV'])
 df_boston = pd.concat([df_data, df_target,], axis = 1) #concat data/target
-print boston.DESCR
 
-print "*****************************"
-print "Summary\n"
 feats = df_boston.shape[1]
 obs = df_boston.shape[0]
-print "Number of Housing Features: ", feats
-print "Number of Houses: ", obs
-
 ```
 
+```python
+df_boston.describe()
+```
 
-# Statistical Analysis and Data Exploration
+![img](/img/Boston/data.png)
 
-### Which are significant and what do they measure of the available features for a given home, w?
+
+### Data Exploration
+
+**Which are significant and what do they measure of the available features for a given home?**
 
 First, a histogram is generated to show the distribution of median housing
 prices in the greater Boston area. The scatter plots consists of the median
@@ -114,9 +116,9 @@ def corrplot():
     sns.corrplot(df_boston)
 ```
 
-# Calculate some Boston housing statistics:
 
 ```python
+## Calculate some Boston housing statistics:
 def explore_city_data():
     number_houses = housing_features.shape[0] # size of data
     number_features = housing_features.shape[1] # number of features
@@ -178,15 +180,23 @@ if __name__ == "__main__":
     corrplot()
     scatter_plots()
     print "\n***Scatter Plots (Features)***"
-    plot1()
-    plot2()
+    #plot1()
+    #plot2()
     plot3()
-
 ```
 
-# Training and Testing Data
+![](/img/Boston/histogram1.png)
 
-### Why split the dataset into training and testing subsets?
+![](/img/Boston/correlation.png)
+
+![](/img/Boston/scatterplots.png)
+
+![](/img/Boston/ptratio_tax.png)
+
+
+### Training & Testing Data
+
+**Why split the dataset into training and testing subsets?**
 
 Splitting the data into training and testing provides a measurement on how
 well the model will perform on out-of-sample data. Ideally, you want to perform
@@ -212,9 +222,9 @@ def split_data():
 X_train, y_train, X_test, y_test = split_data()
 ```
 
-# Performance Metric:
+### Performance Metric:
 
-### Which performance metric below is most appropriate for predicting housing prices and analyzing error? Why?
+**Which performance metric below is most appropriate for predicting housing prices and analyzing error?**
 
 
 Accuracy, Precision, Recall, F1 score, Mean Squared Error (MSE), and Mean
@@ -237,12 +247,12 @@ learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html),
 therefore MSE is the valid peformance metric input for determining a split when
 constructing this model.
 
- Mean Squarred Error             
+***Mean Squarred Error***             
 
 ![](/img/Boston/learning_curve_5.png) 
 
 
-Mean Absolute Error
+***Mean Absolute Error***
 
 ![](/img/Boston/learning_curve_mae_5.png)
 
@@ -254,7 +264,7 @@ def performance_metric(label, prediction):
     return mse
 ```
 
-## Simple Linear Regression
+### Simple Linear Regression
 
 ```python
 def linear_reg(x_train,x_test,y_train,y_test,feat_val):
@@ -322,6 +332,9 @@ if __name__ == "__main__":
     main()
 ```
 
+![](/img/Boston/linreg.png)
+
+
 ### Multiple Linear Regression
 
 ```python
@@ -346,7 +359,9 @@ if __name__ == "__main__":
     main()
 ```
 
-# Regression Tree
+![](/img/Boston/mreg.png)
+
+### Regression Tree
 
 Decision Trees are a non-parametric supervised learning method and can be used
 for regression. The goal here is to create a model that predicts the value of
@@ -400,7 +415,7 @@ X_train, y_train, X_test, y_test = split_data()
 learning_curve(depth, X_train, y_train, X_test, y_test)
 ```
 
-###  When the model is using the full training set, does it suffer from high bias or high variance when the max depth is 1? What about when the max depth is 10?
+**When the model is using the full training set, does it suffer from high bias or high variance when the max depth is 1? What about when the max depth is 10?**
 
 In the case of `max_depth` = `1`, the training error begins to significanlty
 increase as the training size increases and likewise, the error for the test
@@ -413,16 +428,16 @@ overfitting the data as shown below (right). The model has virtually memorized
 the training data but will not be expected to perform well with out-of-sample
 data.
 
-Depth = 1                  
+***Depth = 1***               
 
 ![](/img/Boston/learning_curve_1.png)  
 
-Depth = 10
+***Depth = 10***
 
 ![](/img/Boston/learning_curve_10.png)
 
 
-### What is the max depth for the model? As the size of the training set increases, what happens to the training error? Describe what happens to the testing error.
+**What is the max depth for the model? As the size of the training set increases, what happens to the training error? Describe what happens to the testing error.**
 
 The learning curves for `max_depth` from 3-5 are shown below. As observed form
 the figures, the training error is virtually zero as the model has basically
@@ -435,15 +450,15 @@ examples, but begins to decrease as more training examples are given. Based on
 the learning curve plots, it is concluded that the maximum depth for this model
 is `4`.
 
-Max Depth = 3 
+***Max Depth = 3*** 
 
 ![](/img/Boston/learning_curve_3.png)  
 
-Max Depth = 4
+***Max Depth = 4***
 
 ![](/img/Boston/learning_curve_4.png) 
 
-Max Depth = 5 
+***Max Depth = 5***
 
 ![](/img/Boston/learning_curve_5.png)
 
@@ -489,9 +504,9 @@ def model_complexity_graph(max_depth, train_err, test_err):
     pl.show()
 ```
 
-# Fit Model
+### Fit Model
 
-### What is the grid search algorithm and when is it applicable?
+**What is the grid search algorithm and when is it applicable?**
 
 A machine learning model can be fine-tuned by using the grid search algorithm,
 a hpyerparameter optimization technique. The performance of the model depends on
@@ -504,7 +519,7 @@ combination of hyperparameters that produce the best model. The `1-10`), and a
 scoring function so it is able to evaluate the parameter that performed the best
 (performance `metric mean_squared_error`).
 
-### What is cross-validation and how is it performed on a model? Why would cross-validation be helpful when using grid search?
+**What is cross-validation and how is it performed on a model? Why would cross-validation be helpful when using grid search?**
 
 A common occurrence from machine learning algorithms is a degree of bias that
 can exist when random sampling the data and splitting the data between training
@@ -514,12 +529,12 @@ average on multiple test sets. One of the most common iterators that performs
 the k-fold cross-validation is `KFolds` and the steps are as follows:
 
 
-1)Splits the data into K equal folds
-2)Uses one of the fold as the testing set and the remaining as the training set
-3)Trains and records the test set results
-4)The second and third steps are repeated using a different fold as the testing set each time
-5)Calculate the average and standard deviation of all the k-folds
-6)Documentation can be found here:[sklearn.cross_validation.KFolds()](http
+-Splits the data into K equal folds
+-Uses one of the fold as the testing set and the remaining as the training set
+-Trains and records the test set results
+-The second and third steps are repeated using a different fold as the testing set each time
+-Calculate the average and standard deviation of all the k-folds
+-Documentation can be found here:[sklearn.cross_validation.KFolds()](http
 ://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.KFold.html)
 
 
@@ -581,7 +596,7 @@ def fit_predict_model():
     
 ```
 
-### Run Regression Tree Model
+### Run Regression-Tree Model
 
 ```python
 def main():
@@ -599,10 +614,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    #main()
 ```
 
-### From the model complexity graph, describe the training and testing errors as the max depth increases. Based on your interpretation of the graph, which max depth results in a model that best generalizes the dataset? Why?
+**From the model complexity graph, describe the training and testing errors as the max depth increases. Based on your interpretation of the graph, which max depth results in a model that best generalizes the dataset? Why?**
 
 As the `max_depth` is increased, the training error begins to exponentially
 decline and approaches zero as the model becomes more complex. The testing error
@@ -619,7 +634,7 @@ then the complexity is increased for no reason and therefore overfitting occurs.
 ![](/img/Boston/Model.Complexity.png)
 
 
-### Using grid search, what is the optimal max depth for your model? How does this result compare to your initial intuition?
+**Using grid search, what is the optimal max depth for your model? How does this result compare to your initial intuition?**
 
 Based on the model complexity graph, the model that best generalizes the data
 is when `max_depth` = `4`. Calling the `grid.best_params_` from `GridSearchCV`
@@ -682,9 +697,7 @@ pl.grid()
 pl.show()
 ```
 
-Histogram: Predicted Housing Prices (iteraitons = 100)
-
-### Discuss whether you would use this model or not to predict the selling price of future clients? homes in the Boston area.
+**Discuss whether you would use this model or not to predict the selling price of future clients? homes in the Boston area.**
 
 Being there is variability in the predicted price, which is actually expected
 since the code randomizes the data and therefore affects fitting the model to
@@ -698,9 +711,12 @@ this, `1,000` iterations (randomly sampling each iteration, `cross-validation`
 validate that the `max_depth` = `4` and the suggested value of the home is
 consistent around `$21,500`.
 
-Max_Depth                  
-![](/img/Boston/Gridsearch_MaxDepth_Hist.png)
+***Max_Depth***          
 
-Predicted Prices
+<img src = "/img/Boston/Gridsearch_MaxDepth_Hist.png">
+<!-- ![](/img/Boston/Gridsearch_MaxDepth_Hist.png)
+ -->
+ 
+***Predicted Prices***
 
 ![](/img/Boston/Gridsearch_Prices_Hist.png)

@@ -1,7 +1,7 @@
 
 <!-- Contact Start -->
 
-<section id="{{ page.section-type }}" class="container content-section text-center">
+<section id="{{ page.section-type }}" class="container content-section text-justify">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
 
@@ -10,7 +10,7 @@
       {% if site.email %}
         {% if site.email contains '@' %}
           {% assign newemail = site.email | split: '@' %}
-            <p>
+            <p style = "text-align:center">
             <script>
               function join_at_email(user, domain){
               return (user && domain)?(user + "@" + domain):"";
@@ -28,6 +28,7 @@
         {% endif %}
       {% endif %}
 
+      <p align='center'><iframe src="https://www.google.com/maps/d/embed?mid=1zHEwL0uwGyGOqf2yify6gBguNkI" width="640" height="480"></iframe></div></p>
     </div>
   </div>
 </section>

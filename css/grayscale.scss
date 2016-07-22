@@ -29,11 +29,11 @@ h3,
 h4,
 h5,
 h6 {
-    margin: 0 0 35px;
+    margin: 5px 0px 15px;
     text-transform: uppercase;
     font-family: "Montserrat","Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: 700;
-    letter-spacing: 1px;
+    font-weight: 200px;
+    letter-spacing: .5px;
 }
 
 /* Added in { Personal } */
@@ -99,7 +99,8 @@ a {
         }
     }
     .navbar-brand {
-        font-weight: 700;
+        font-weight: 50px;
+        font-size: 18px;
         &:focus {
             outline: none;
         }
@@ -140,7 +141,7 @@ a {
         }
     }
     @media(min-width:768px) {
-        padding: 20px 0;
+        padding: 5px 0;
         border-bottom: none;
         letter-spacing: 1px;
         background: $navbar-lg-background;
