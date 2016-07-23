@@ -6,15 +6,16 @@
     <div class="container">
       <div class="row">
           <div class="col-md-10 col-md-offset-1">
-            <h2>Welcome to my Personal and Blog Page</h2>
+            <p><a class="btn-default btn-lg" a href="{{site.baseurl}}/blog/" role="button">View Blogs</a></p>
             <span class="intro-text">{{ content }}</span>
             <h5>&nbsp;</h5>
-            <a href="#{{ site.pages_list['About'] }}" class="page-scroll">
+            <a href="#{{ site.pages_list['Blog'] }}" class="page-scroll">
 
             </a>
           </div>
         </div>
     </div>
+    {% include social-buttons.html %}
   </div>
 </header>
 

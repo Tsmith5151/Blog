@@ -218,7 +218,7 @@ X_train, y_train, X_test, y_test = split_data()
 **Which performance metric below is most appropriate for predicting housing prices and analyzing error?**
 
 
-Accuracy, Precision, Recall, F1 score, Mean Squared Error (MSE), and Mean Absolute Error (MAE). Being a regression problem and not classification, the metric used to evaluate the performance of the predicting variable (housing price) is the[mean_squared_error](http://scikit- earn.org/stable/modules/generated sklearn.metrics.mean_squared_error.html), which takes all of the errors, the vertical distance from the observation to the regession line,squares  them, then finds the average. The MSE will heavily penalize outliers as oppose to the [mean absolute error](http://scikit-learn.org /stable/modules/generated sklearn.metrics.mean_absolute_error.html),which takes all the errors, get the absolute values of them, and find the average. When selecting betweeen the metrics, the objective is the minimize the error, which is why it is better to consider the MSE in the model. The two figures belowdipicts the difference between the MSE (left) and the MAE (right) at a given depth `5`; it can be observed the error is minimized more for the MSE as opposed to the MAE. Furthermore, the machine learning algorithm for this project is [sklearn.tree.DecisionTreeRegressor](http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html), therefore MSE is the valid peformance metric input for determining a split when constructing this model.
+Accuracy, Precision, Recall, F1 score, Mean Squared Error (MSE), and Mean Absolute Error (MAE) are several performance metrics. When the target variable that is trying to be predicted is continuous, such as this case of the housing data, is termed as a regression problem. On the other hand, when 'Y' can take on only a small number of discrete values (i.e. given the size of the living room and we want to predict whether this is a house or an apartment) this is referred to as a classification problem. So being that this project is a regression problem and not classification, the metric used to evaluate the performance of the predicting variable (housing price) is the [mean_squared_error](http://scikit- earn.org/stable/modules/generated sklearn.metrics.mean_squared_error.html). The MSE takes all of the errors, the vertical distance from the observation to the regession line, squares them, then finds the average. The MSE will heavily penalize outliers as oppose to the [mean absolute error](http://scikit-learn.org /stable/modules/generated sklearn.metrics.mean_absolute_error.html), which takes all the errors, get the absolute values of them, and find the average. When selecting betweeen the metrics, the objective is the minimize the error, which is why it is better to consider the MSE in the model. The two figures below dipicts the difference between the MSE (left) and the MAE (right) at a given depth `5`; it can be observed the error is minimized more for the MSE as opposed to the MAE. Furthermore, the machine learning algorithm for this project is [sklearn.tree.DecisionTreeRegressor](http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html), therefore MSE is the valid peformance metric input for determining a split when constructing this model.
 
 ***Mean Squarred Error***             
 
@@ -237,6 +237,19 @@ def performance_metric(label, prediction):
 ```
 
 ### Simple Linear Regression
+
+For the initial case, let's consider a one-dimensional vector (X) where X1 is the percentage of crime and we are trying to predict the medium housing price (Y). We can approximate 'Y' as a linear function of X by the following expression:
+
+Regression equation is defined by: ***Y = w0 + w1*X1 + E***
+
+Where w's are the parameters (also called the weights) parameterizing the space of linear functions mapping X to Y. 
+
+***Cost Function***
+
+So when estimating the function f(x) given the data to model, search all possible values of w0 and w1 such that the results is one that minimizes the squared error. The squared error is the summation of taking the squared difference between the actual and predicted data point. 
+
+
+*Source: CS2299 Lecture Notes on Linear Regresstion*
 
 We can implement Linear Regression to the Boston Housing dataset by fitting the best relationship between X & Y. The relationship between Crime (X) and the MEDV (Y) is explored below:
 
@@ -504,7 +517,7 @@ the k-fold cross-validation is `KFolds` and the steps are as follows:
 -Trains and records the test set results
 -The second and third steps are repeated using a different fold as the testing set each time
 -Calculate the average and standard deviation of all the k-folds
--Documentation can be found here:[sklearn.cross_validation.KFolds()](http
+-Documentation can be found here: [sklearn.cross_validation.KFolds()](http
 ://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.KFold.html)
 
 

@@ -130,9 +130,9 @@ social:
 # Sections shown in the index page
 
 pages_list:
-  About: 'about'
   Blog: 'latest-post'
   Projects: 'project'
+  About: 'about'
   Contact: 'contact'
 
 # Exclusion list from the generated _site
