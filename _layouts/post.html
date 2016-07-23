@@ -23,7 +23,8 @@
                 {{ page.category }}
               </a>.
               <a href="{{site.baseurl}}{{page.url }}#disqus_thread">Comments</a>
-              <br />
+              <br/>
+              <h5 style = "text-align:left">Author: {{page.author}}</h5>
               {% for tag in page.tags %}
                 <a class="tag" href="{{site.baseurl}}/tags/{{tag}}.html">#{{ tag }}</a>
               {% endfor %}

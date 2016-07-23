@@ -16,6 +16,7 @@
           .</small>
           <strong> <a href="{{site.baseurl}}{{ post.url }}">{{post.title}} </a> </strong>
           <small> <a href="{{site.baseurl}}{{post.url}}#disqus_thread">Comments</a></small>
+          <h5>Author: {{post.author}}</h5>
         </h4>
 
         {{ post.content | strip_html | markdownify | truncatewords: site.post-preview-words }}
