@@ -73,7 +73,7 @@ icon-192p: "/img/web-app/icon-192p.png"
 
 enable-gesture-navigation: True
 
-post-preview-words: 60
+post-preview-words: 40
 
 paginate: 5
 
@@ -130,7 +130,6 @@ social:
 # Sections shown in the index page
 
 pages_list:
-  Blog: 'latest-post'
   Projects: 'project'
   About: 'about'
   Contact: 'contact'
@@ -151,3 +150,4 @@ sass:
 gems:
   - jekyll-paginate
   - jemoji
+

@@ -1,9 +1,9 @@
 ---
 layout: post
 section-type: post
-title: Predicting Boston Housing Prices
+title: Linear Regression and Regression Trees to Predict Housing Prices
 category: technology
-tags: [ 'machine learning' ]
+tags: [ 'Machine Learning', 'Regression Trees', 'Scikit-Learn','Linear Regression' ]
 author: Trace Smith
 ---
 
