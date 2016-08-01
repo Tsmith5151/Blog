@@ -15,22 +15,17 @@
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
         
-          <h1><strong>{{ page.title }}</strong></h1>
-          <h4>
-            <strong>{{ page.date | date_to_string }}</strong>
-            <small>
-              . category:
-              <a class="category" href="{{site.baseurl}}/categories/{{page.category | downcase}}.html">
-                {{ page.category }}
-              </a>.
-              <a href="{{site.baseurl}}{{page.url }}#disqus_thread">Comments</a>
-              <br/>
-              <h5 style = "text-align:left">Author: {{page.author}}</h5>
-              {% for tag in page.tags %}
-                <a class="tag" href="{{site.baseurl}}/tags/{{tag}}.html">#{{ tag }}</a>
-              {% endfor %}
-            </small>
+          <h2><strong>{{ page.title }}</strong></h2>
+          <h4> Date:
+            {{ page.date | date_to_string }} <small>Author: {{page.author}}</small>
           </h4>
+          <div>
+            <strong>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </strong>
+          </div>
+
+          <br>
 
           {{ page.content | markdownify }}
 

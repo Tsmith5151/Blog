@@ -1,7 +1,7 @@
 ---
 layout: post
 section-type: post
-title: Linear Regression and Regression Trees to Predict Housing Prices
+title: Predict Housing Prices Utilizing Supervised Learning Algorithms
 category: technology
 tags: [ 'Machine Learning', 'Regression Trees', 'Scikit-Learn','Linear Regression' ]
 author: Trace Smith
