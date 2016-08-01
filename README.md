@@ -3,10 +3,7 @@
 
 # Jekyll Themed Blog 
 
-#### Documentation
-
 To launch the website, click [`here`](https://tsmith5151.github.io/Blog/).
-
 
 #### How to run locally
 
@@ -22,7 +19,6 @@ Then, you can build and serve your website by simply running:
 ./scripts/serve-production
 ````
 
-
-#### Fork
+#### Forked Repo
 
 Source: [`personal-jekyll-theme`](https://github.com/PanosSakkos/personal-jekyll-theme)
