@@ -1,9 +1,8 @@
 # Jekyll Themed Blog 
 
 
-<p align = "center">
-![img](img/mainpage.png)
-</p>
+![img](/img/mainpage.png)
+
 
 
 
