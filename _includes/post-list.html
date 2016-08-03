@@ -2,18 +2,17 @@
 <!-- Post List Start -->
 <br>
 <h3 align="left">
-  <strong>{{ post.date | date_to_string }}</strong>
   <br class="visible-xs-block">
   <a href="{{site.baseurl}}{{post.url}}">
     <strong>{{ post.title }}</strong>
   </a>
+  <h4>
+    Date: {{ post.date | date_to_string }}
+    <small>Author: {{post.author}}</small>
+  </h4>
   <br class="visible-xs-block">
-  <div>
-  <small>Author: {{post.author}}</small>
-  </div>
-  <small><i> <a href="{{site.baseurl}}{{post.url}}#disqus_thread">Comments</a></i></small>
-  </h3>
-<h8>
+</h3>
+<p>
 {{ post.content | truncatewords: site.post-preview-words }}<a href="{{site.baseurl}}{{post.url}}">read more</a>
-</h8>
+</p>
 <!-- Post List End -->
