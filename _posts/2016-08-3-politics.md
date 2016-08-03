@@ -7,8 +7,7 @@ tags: [ 'Machine Learning' ]
 author: Trace Smith
 ---
 
-In this blog, I will go into grave details on the steps taken generate a model that predicts a political candidates voting success. And just to clarify here, the analysis only covers results from the U.S. Primary Election for POTUS in early 2016 for the Republican party. At the time, the Republican did not have a clear-cut winner, thus was more interesting to look into. In hindsight, it would have been equally interesting to make some predictions between Bernie Sanders and Hillary Clinton. Nevertheless, in the near future I will be expanding this work to see if we can make some predictions in the General Election between Trump and Clinton. In the meantime, the objective of this work was to leverage machine-learning techniques to predict whom voters are most likely to elect as the party’s nominee in 2016
-Primary Election based on a series of demographics. 
+In this blog, I will go into grave details on the steps taken generate a model that predicts a political candidates voting success. And just to clarify here, the analysis only covers results from the U.S. Primary Election for POTUS in early 2016 for the Republican party. At the time, the Republicans did not have a clear-cut winner, thus it was more interesting to look into. In hindsight, it would have been equally interesting to make some predictions between Bernie Sanders and Hillary Clinton. Nevertheless, in the near future I will be expanding this work to see if we can identify voting trends and make some predictions in the General Election between Trump and Clinton. In the meantime, the objective of this work was to leverage machine-learning techniques to predict whom voters are most likely to elect as the party’s nominee in 2016 Primary Election based on a series of demographics. 
 
 This work examines patterns and trends in how voters cast their ballot given a larger feature space
 of county demographics spread throughout the United States. In some cases, some states are called with no actual votes tallied. This can come from models, similar to this work, where county-by-county demographics are analyzed for
@@ -99,7 +98,10 @@ required (pip install ipython-sql). Additionally, ‘pandas’ is also used seve
 times in the script to read a SQL command and stores the query into a DataFrame.
 
 
-**SQL Database Tables:** `primary_results`, `county_facts`, `county_facts_dictionary` 
+**SQL Database Tables:** 
+	`primary_results`
+	`county_facts`
+	`county_facts_dictionary` 
 
 ```python
 %sqlite_execute #ipython magic
