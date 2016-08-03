@@ -1,5 +1,12 @@
 # Jekyll Themed Blog 
 
+
+<p align = "center">
+![img](img/mainpage.png)
+</p>
+
+
+
 To launch the website, click [`here`](https://tsmith5151.github.io/Blog/).
 
 ### How to run locally
