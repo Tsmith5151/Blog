@@ -4,7 +4,8 @@ To launch the website, click [`here`](https://tsmith5151.github.io/Blog/).
 
 ### How to run locally
 
-1.) Open a terminal 
+1.) Open a terminal
+
 2.)  Create the directory ~/projects
 ``` 
 mkdir ~/projects
