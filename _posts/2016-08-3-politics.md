@@ -19,29 +19,13 @@ In today’s politics, candidates rely heavily on polls to make campaign decisio
 
 ## Data Overview
 
-The dataset utilized in the work is obtained from [`kaggle`](https://www.kaggle.com/benhamner/2016-us-election). Additional information from the primary results for each primary state can be found at [`CNN`](http://www.cnn.com/election/primaries/counties/ia/Dem) and the country facts is gathered from the [`United States Census Bureau`](http://www.census.gov/quickfacts/404.php).
+The dataset utilized in the work is obtained from [kaggle](https://www.kaggle.com/benhamner/2016-us-election). Additional information from the primary results for each primary state can be found at [CNN](http://www.cnn.com/election/primaries/counties/ia/Dem) and the country facts is gathered from the [United States Census Bureau](http://www.census.gov/quickfacts/404.php).
 
-The 2016 US Election dataset contains several main files and folders.
-  primary_results.csv: main primary results file
-  state: state where the primary or caucus was held
-  state_abbreviation: two letter state abbreviation
-  county: county where the results come from
-  fips: FIPS county code
-  party: Democrat or Republican
-  candidate: name of the candidate
-  votes: number of votes the candidate received in the corresponding state and county (may be missing)
-  fraction_votes: fraction of votes the president received in the corresponding state, county, and primary
-
+In the primary_results.csv file, the following features can be found: state, state abbreviation, county, FIPS county code, party (Democrat or Republican), name of the candidate, number of votes, and fraction of votes. 
+ 
 ## Python Libraries: 
 
-A complete list of the python packages that were utilized in the work is shown below. As before, I will be calling the Machine Learning classifiers and data mining tools from [`Scikit-Learn`](http://scikit-learn.org). Being that I am working locally on my machine, I will managing the data through SQLite3, an embedded SQL database engine. Unlike most other SQL databases, SQLite does not have a separate server process, thus SQLite reads and writes directly to ordinary disk files. To run SQLite3 in the Ipython Notebook kernel, you will need to install SQL Magic for IPython (shown below). To view some examples on how to use ipython-sql can be foud [here](https://github.com/catherinedevlin/ipython-sql)
-     
-
-``` python
-#Sqlite3
-%load_ext sql
-%sql sqlite:///database.sqlite
-```
+A complete list of the python packages that were utilized in the work is shown below. As before, I will be calling the Machine Learning classifiers and data mining tools from [Scikit-Learn](http://scikit-learn.org). 
 
 ```python
 import sys
@@ -68,8 +52,6 @@ warnings.filterwarnings('ignore')
 ```python
 #Import from Sci-Kit Learn
 from sklearn.metrics import confusion_matrix
-from sklearn.decomposition import PCA
-from sklearn import preprocessing
 from sklearn.metrics import f1_score, accuracy_score
 from sklearn.cross_validation import cross_val_score
 from sklearn.cross_validation import StratifiedShuffleSplit
@@ -86,22 +68,14 @@ from sklearn.feature_extraction import DictVectorizer
 
 ## Database Queries
 
-The 2016 Primary Election for POTUS dataset is obtained from Kaggle, which
-includes a large database of election results (CNN) and demographics (U.S.
-Census Bureau) contaning two tables: county facts and primary results. The
-primary_results table in the ‘database.sqlite’ file. To query the database and
-create additional tables, a relational database management system SQLite is
-utilized. Calling the sqlite3 function from the python standard library
-provides the interface for accessing the SQLite database. In order to use the
-structured query language in the Ipython notebook, SQLite magic command is
-required (pip install ipython-sql). Additionally, ‘pandas’ is also used several
-times in the script to read a SQL command and stores the query into a DataFrame.
+As mentioned earlier, the 2016 Primary Election for POTUS dataset is obtained from Kaggle, which
+includes a large database of election results (CNN) and demographics (U.S. Census Bureau) contaning two tables: county facts and primary results. To query the database and create additional tables, a relational database management system, SQLite, is utilized. 
 
+Being that I am working locally on my machine, I will managing the data through SQLite3, an embedded SQL database engine. Unlike most other SQL databases, SQLite does not have a separate server process, thus SQLite reads and writes directly to ordinary disk files. Calling the sqlite3 function from the python standard library
+provides the interface for accessing the SQLite database. In order to use the structured query language in the Ipython notebook, SQLite magic command is required (pip install ipython-sql). Additionally, ‘pandas’ is also used several times in the script to read a SQL command and stores the query into a DataFrame.
 
-**SQL Database Tables:** 
-	`primary_results`
-	`county_facts`
-	`county_facts_dictionary` 
+To run SQLite3 in the Ipython Notebook kernel, you will need to install SQL Magic and include the following script to access the database in IPython. To view some examples on how to use ipython-sql can be foud [here](https://github.com/catherinedevlin/ipython-sql)
+     
 
 ```python
 %sqlite_execute #ipython magic
@@ -117,8 +91,8 @@ except IntegrityError:
     print"Did not successfully connect to database"
 ```
 
-Create tables and output queries in .csv format using the following SQL
-queries:
+Now, lets look first at some of the queries ran in preparing the data. First, the primary_results table is altered by adding a column for state abbreviation. The purpose of this column is to merge it with the area_name county_state, which will act as our unique identifier. Additionally, the candidate column is updated by removing the whitespace between the first and last name so that the classifier does. The parties are then split into Republicans and Democrats. Again, keep in mind that only the Republican party is being analyzed, thus we separate the two.
+
 
 ```python
 %sql SELECT * FROM primary_results
@@ -147,25 +121,30 @@ queries:
 #%sql .output county_facts_dict.csv # command in terminal
 ```
 
-```python
-'''SQL TABLES FOR TO GROUP WINNER OF EACH COUNTY:'''
+*Identify the Republican winner in each county:*
 
-#Identify the Republican winner in each county:
+```python
 %sql SELECT state, state_abbreviation, county, fips, party, candidate, MAX(votes), fraction_votes, county_state FROM Republicans GROUP BY county ORDER BY state;
 %sql CREATE TABLE Republican_Winner(state TEXT NOT NULL, state_abbreviation TEXT NOT NULL, county TEXT NOT NULL, fips INTEGER NOT NULL, party TEXT NOT NULL, candidate TEXT NOT NULL, votes INTEGER NOT NULL, fraction_votes INTEGER NOT NULL, county_state TEXT NOT NULL);
 #.import republican_winners.csv Republican_Winner
 ```
+
+*Identify the Democrat winner in each county:*
+
 ```python
-#Identify the Democrat winner in each county:
 %sql SELECT state, state_abbreviation, county, fips, party, candidate, MAX(votes), fraction_votes, county_state FROM Democrats GROUP BY county ORDER BY state;
 %sql CREATE TABLE Democrat_Winner(state TEXT NOT NULL, state_abbreviation TEXT NOT NULL, county TEXT NOT NULL, fips INTEGER NOT NULL, party TEXT NOT NULL, candidate TEXT NOT NULL, votes INTEGER NOT NULL, fraction_votes INTEGER NOT NULL, county_state TEXT NOT NULL);
 #.import democrat_winners.csv Democrat_Winner 
 ```
+
+*Join Tables*
+
 ```python
-# Join Tables (county_facts and Republican/Democrat winner)
+#county_facts and Republican/Democrat winner
 %sql SELECT * FROM Republican_Winner INNER JOIN county_facts WHERE Republican_Winner.county_state = county_facts.county_state;
 %sql SELECT * FROM Democrat_Winner INNER JOIN county_facts WHERE Democrat_Winner.county_state = county_facts.county_state;
 ```
+<br>
 
 ## Explore Data:
 
@@ -188,22 +167,25 @@ df_democrats = pd.read_sql_query('SELECT * FROM Democrats', db) # Democrat Table
 df_county_facts_dictionary = pd.read_sql_query('SELECT * FROM county_facts_dictionary ',db)
 ```
 
+*Democrat Primary Results*
+
 ```python
-# Democrat Primary results
 df_democrats.head()
 ```
 
 <img src = "https://tsmith5151.github.io/Blog/img/politics/dem.png">
 
+*Republican Primary Results*
+
 ```python
-# Republican Primary results
 df_republicans.head()
 ```
 
 <img src = "https://tsmith5151.github.io/Blog/img/politics/repub.png">
 
+*County Facts Data*
+
 ```python
-# County Facts data
 df_county_facts.head()
 ```
 
@@ -268,17 +250,21 @@ votes['candidate'] = votes['candidate'].str.replace("_"," ")
 sns.plt.figure(figsize=(10,6))
 sns.barplot(y = 'candidate', x = 'sum_votes', data = votes, alpha=0.7)
 sns.plt.title('Total Votes per Candidate (Both Parties)', fontsize = 18)
-
 ```
 
 <img src = "https://tsmith5151.github.io/Blog/img/politics/votes.png">
 
+*Republican Winner by County*
+
 ```python
-# republican winner by county:
 rep_winner_county = pd.read_sql_query('SELECT candidate, count(candidate) \
     as count_county FROM Republican_Winner GROUP BY candidate ORDER BY count_county desc', db)
 rep_winner_county['candidate'] = rep_winner_county['candidate'].str.replace('_',' ')
-# democrat winner by county:
+```
+
+*Democrat Winner by County*
+
+```python
 dem_winner_county = pd.read_sql_query('SELECT candidate, count(candidate) \
     as count_county FROM Democrat_Winner GROUP BY candidate ORDER BY count_county desc', db)
 dem_winner_county['candidate'] = dem_winner_county['candidate'].str.replace('_',' ')
@@ -308,7 +294,7 @@ Initially the tables is the database were not assigned with a primary or
 foreign key, thus as a quick fix instead of recreating the tables, a single
 column was added that consisted of merging the county and state abbreviation
 columns together to give a unique ID name to both the primary results and county
-facts table (i.e. `county_stateabbrev`); the two tables can now be linked
+facts table (i.e. county_stateabbrev); the two tables can now be linked
 together. Furthermore, this predictive model will focus only on candidates who
 are currently still in the race: Donald Trump, Ted Cruz, and John Kasich. Those
 candidates whom have suspended their presidential campaign were removed from the
@@ -323,13 +309,12 @@ work was required to reorganize the data such that two separate DataFrames were
 constructed; one containing the features and the other contains the target
 column Using the concat function in pandas allows the two separate DataFrames to
 then be re-joined together in the desired format. After slicing the newly
-created DataFrame, `df_rep`,  X_all stores all of the features and y_all stores
+created DataFrame, df_rep,  X_all stores all of the features and y_all stores
 the target column.
 
 
 ```python
 #Dataframe Democrat and Republican winners per county w/ county facts:
-
 democrat_data = pd.read_csv("./election results/democrat_winners_county_facts.csv")
 #drop repeated columns from merge
 democrat_data.drop(democrat_data.columns[[1,3,9,10,11,63]], axis=1, inplace=True)
@@ -341,8 +326,11 @@ democrat_data.drop(democrat_data.columns[[1,3,9,10,11,63]], axis=1, inplace=True
 republican_data = pd.read_csv("./election results/republican_winners_county_facts.csv")
 #drop repeated columns from merge
 republican_data.drop(republican_data.columns[[1,3,9,10,11,63]], axis=1, inplace=True)
+```
 
-# Remove all rows wrt Republican candidates who suspended campaign:
+*Remove Republican Candidates Who Suspended Their Campaigns*
+
+```python
 to_del = republican_data.loc[republican_data['candidate'].isin(['Jeb_Bush', 
     'Ben_Carson','Rand_Paul','Chris_Christie','Carly_Fiorina','Rick_Santorum',
     'Mike_Huckabee',"Marco_Rubio","_No_Preference","_Uncommitted"])].index.tolist()
@@ -351,16 +339,18 @@ republican_data = republican_data.drop(to_del)
 #republican_data['candidate'] = republican_data['candidate'].str.replace('_',' ') #to clean up plots
 ```
 
+*Democrats DataFrame:*
+
 ```python
-'''Democrats'''
 x_columns_dem = list(democrat_data.columns[8:]) 
 x_vars_dem = democrat_data[x_columns_dem] # Features
 y_vars_dem = democrat_data['candidate'] # Target Labels
 df_dem = pd.concat([x_vars_dem,y_vars_dem],axis=1) #combine Feautres/Target into one dataframe
 ```
 
+*Republicans DataFrame*
+
 ```python
-'''Republicans'''
 #republican_data = republican_data.replace(['Donald_Trump','Ted_Cruz','John_Kasich'],[1,2,3])
 x_columns_rep = list(republican_data.columns[8:]) 
 x_vars_rep = republican_data[x_columns_rep] # Features
@@ -399,6 +389,9 @@ is not available in this dataset. There are numerous combinations of voter
 trends that can be observed based on the given attributes, therefore the
 following plots explore the some of the relationships such as education, income,
 race, and ethnicity.
+
+
+### Democrat Party
 
 ```python
 def plot1():
@@ -454,6 +447,14 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+<img src = "https://tsmith5151.github.io/Blog/img/politics/dem1.png">
+
+<img src = "https://tsmith5151.github.io/Blog/img/politics/dem2.png">
+
+<img src = "https://tsmith5151.github.io/Blog/img/politics/dem3.png">
+
+<img src = "https://tsmith5151.github.io/Blog/img/politics/dem4.png">
+
 
 ### Republican Party
 
@@ -507,8 +508,6 @@ def rep_create_plot(x_feat,y_feat,x_label,y_label):
     g.set(ylim=(0,100))
     g.set(xlim=(0,None))
     sns.plt.title('Republican Party', fontsize = 20)
-
-
 ```
 
 ```python
@@ -522,6 +521,17 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
+<img src = "https://tsmith5151.github.io/Blog/img/politics/rep1.png">
+
+<img src = "https://tsmith5151.github.io/Blog/img/politics/rep2.png">
+
+<img src = "https://tsmith5151.github.io/Blog/img/politics/rep3.png">
+
+<img src = "https://tsmith5151.github.io/Blog/img/politics/rep4.png">
+
+<img src = "https://tsmith5151.github.io/Blog/img/politics/rep5.png">
+
 
 Based on some of the correlation plots shown above, in summary we can see that
 Clinton performs better in areas with lower percentage of whites and those who
@@ -540,12 +550,13 @@ appeals more to areas with less household income and percentage of whites.
 Majority of Cruz’s success ranges with populations receiving $40-60K with a
 significantly higher white population that ranges from 70% to nearly 100%.
 
+
 ## Calibrate Predictive Model
 
 As previously mentioned, the dataset is unbalanced, thus is important to
 address splitting the data into training and testing when initially calibrating
 the model. Therefore, after preprocessing the data, applying the cross-
-validation technique `StratifiedShuffleSplit` helps deal with the imbalance
+validation technique StratifiedShuffleSplit helps deal with the imbalance
 number of classes in the dataset by allowing the training and testing set to
 have roughly the same ratio of candidate winners; the ratio will not be evenly
 distributed for John Kasich due to the low number of counties won (39) so far in
@@ -581,6 +592,7 @@ print "Training Set: {0:.2f} Samples".format(X_train.shape[0])
 print "Testing Set: {0:.2f} Samples".format(X_test.shape[0])
 
 ```
+<br>
 
 ## Decision Tree: Classification
 
@@ -646,6 +658,9 @@ for the classifier is 5. (plots shown below)
 learning_curve(X_train, y_train, X_test, y_test)
 ```
 
+<img src = "https://tsmith5151.github.io/Blog/img/politics/d5.png">
+
+
 Additionally, a plot was created of the max_depth vs the cross-validation
 score (scoring = ‘accuracy’) located in the bottom right (red line). Cross-
 validation is the process of dividing the data into folds (CV = 10) and hold out
@@ -673,7 +688,9 @@ def cross_validation(X_train, y_train, X_test, y_test):
         n_depth.append(depth)
         print 'Depth: %i Accuracy: %.4f' % (depth,score)
     DT_max_depth_plot(accuracy,n_depth)
+```
 
+```python
 def DT_max_depth_plot(accuracy,n_depth):
     pl.figure(figsize=(8,6))
     pl.plot(n_depth, accuracy, color='r',lw=3, label = "Accuracy")
@@ -689,6 +706,8 @@ def DT_max_depth_plot(accuracy,n_depth):
 ```python
 cross_validation(X_train, y_train, X_test, y_test)
 ```
+
+<img src = "https://tsmith5151.github.io/Blog/img/politics/dt1.png">
 
 ```python
 def DT_tune_model(number_runs):
@@ -740,6 +759,8 @@ def DT_tune_model(number_runs):
 ```python
 DT_tune_model(6)
 ```
+
+<img src = "https://tsmith5151.github.io/Blog/img/politics/dt2.png">
 
 ## Construct Decision Tree
 
@@ -1139,6 +1160,12 @@ def SVC_tune_model(number_runs):
 SVC_tune_model(1)
 ```
 
+    #Mean Statistics:
+    Training_Size       848.000
+    Testing_Size        283.000
+    F1_Score_Testing      0.481
+    dtype: float64
+
 The SVC classifier performed the worst in comparison to the decision tree and
 random forest. The run time was relatively fast, 1 a total completion time of 1
 minute for 10 iterations; however a resulting F1 score of 0.48 was observed.
@@ -1146,7 +1173,6 @@ Since linear SVC attempts to separate the classes by finding appropriate
 hyperplanes in Euclidean space, perhaps the data is not linearly separable which
 is resulting in the poor performance of the classifier. Therefore the SVM
 classifier would not be a valid model to use with this dataset.
-
 
 ## Conclusion
 
