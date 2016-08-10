@@ -44,10 +44,16 @@ from sklearn.pipeline import make_pipeline
 ```
 
 
-### Explore  The Data
+### Data Exploration
 
 First, the Boston housing dataset from Scikit Learn is uploaded and stored in a Pandas DataFrame. Pandas is a powerful Python package commonly utilized in data analysis which provides fast, flexible, and expressive data structures designed to make working with “relational” or “labeled” data both easy and intuitive. Very simular to an SQL table or Excel spreadsheet, a DataFrame can be thought of as a dict-like container for Series objects with heterogeneously-typed columns. 
 
+Note again that for the Boston Housing dataset it is already in the Pandas data structure via the example datasets available from Scikit-Learn. Some manipulation is necessary identify the target and feature columns of the DataFrame. If we were only given a plain CSV file, we can work with this as well. For example in Pandas we can call the read_csv function as shown below:
+
+```python
+#If data was formatted as csv file
+df = pd.read_csv('dataset.csv')
+```
 
 ```python
 #Load boston dataset
@@ -57,11 +63,15 @@ boston = datasets.load_boston()
 housing_prices = boston.target #target values
 housing_features = boston.data #attributes values
 
+
 #Store in DataFrame
 attributes = boston.feature_names #feature names
 df_data = pd.DataFrame(housing_features, columns = attributes)
 df_target = pd.DataFrame(housing_prices, columns =['MEDV'])
 df_boston = pd.concat([df_data, df_target,], axis = 1) #concat data/target
+
+
+Now that we have the data and it's stored in a Pandas DataFrame, we are ready to explore it. The DataFrame consists of 14 columns which are the attributes and 506 rows which are the individual observations. At this point, it would be good to examine if any values are missing. Missing values in Pandas are represented by `np.nan`. To determine whether any column contains missing values we can check by `pd.isnull(df).any()`. And from here the total number of missing values can be summed using the command `pd.isnull(df).sum()`; in this case there are no missing values in the dataset.
 
 feats = df_boston.shape[1]
 obs = df_boston.shape[0]
@@ -72,15 +82,27 @@ print "Number of Houses: ", obs
 ***Number of Housing Features:  14***
 ***Number of Houses:  506***
 
+Next, it would be useful to know the distribution the attributes. This can be easily computed via the df.describe function which computes basic statistics such as count, mean, min, max, and quartiles. All 14 attributes could not fit in the screenshot, however the figure below gives you an idea what the ouput would look like. 
+
 ```python
 df_boston.describe()
 ```
 
 <img src = "https://tsmith5151.github.io/Blog/img/Boston/data.png">
 
-### Data Exploration
+Also note that each of these statistics can be computed separately. For instance you can call each function separately as such:
 
-To get a better idea of the data, a histogram is generated to show the distribution of median housing prices in the greater Boston area. Nearly 80 homes are valued approximately at $21,000. Next, we can examine any strong correlations between the attributes by observing the correlation heatmap and by creating scatter plots of the median value of homes (MEDV) vs several different housing features. Based on the results, CRIM, RM, and LSAT show a strong linear correlation for predicting the MEDV. For instance, as the number of rooms per house increases, so does the housing price. Several other plots are generated to explore relationships among the input features. 
+```python
+df.count()
+df.min()
+df.max()
+df.median()
+df.mode()
+df.quantile(q) 
+```
+
+
+To better understand our data, providing visualization helps us identify patterns and trends in our dataset. The simplist and easiest statistical metric to interpret is the histogram, which shows the distribution of median housing prices in the greater Boston area. Nearly 80 homes are valued approximately at $21,000. It is also useful to know whether some attributes are correlated with respect to each other and by how much? Scatter plots and correlation matrix correlations allow us to identify linear relationships between the features. Plotting the median value of homes (MEDV) vs several different housing features, a strong linear correlation for predicting the MEDV can be observed: as the number of rooms per house increases, so does the housing price -- this type of relationship would be expected. 
 
 ```python
 def histogram():
