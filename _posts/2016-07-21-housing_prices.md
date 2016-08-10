@@ -17,6 +17,12 @@ A list of the python packages that were utilized in the work can be found in the
 
 First, the Boston housing dataset from Scikit Learn is uploaded and stored in a pandas DataFrame. Pandas is a powerful python package commonly utilized in data analysis which provides fast, flexible, and expressive data structures designed to make working with “relational” or “labeled” data both easy and intuitive. Very simular to an SQL table or Excel spreadsheet, a DataFrame can be thought of as a dict-like container for Series objects with heterogeneously-typed columns. 
 
+
+```python
+#Load boston dataset
+boston = datasets.load_boston()
+```
+
 Note again that for the Boston Housing dataset it is already in the pandas data structure via the example datasets available from Scikit-Learn. Some manipulation is necessary identify the target and feature columns of the DataFrame. If we were only given a plain CSV file, we can work with this as well. For example in Pandas we can call the read_csv function as shown below:
 
 ```python
@@ -24,32 +30,26 @@ Note again that for the Boston Housing dataset it is already in the pandas data 
 df = pd.read_csv('dataset.csv')
 ```
 
-```python
-#Load boston dataset
-boston = datasets.load_boston()
-
+````python
 #Values
 housing_prices = boston.target #target values
 housing_features = boston.data #attributes values
-
 
 #Store in DataFrame
 attributes = boston.feature_names #feature names
 df_data = pd.DataFrame(housing_features, columns = attributes)
 df_target = pd.DataFrame(housing_prices, columns =['MEDV'])
 df_boston = pd.concat([df_data, df_target,], axis = 1) #concat data/target
-
+```
 
 Now that we have the data and it's stored in a pandas DataFrame, we are ready to explore it. The DataFrame consists of 14 columns which are the attributes and 506 rows which are the individual observations. At this point, it would be good to examine if any values are missing. Missing values in Pandas are represented by `np.nan`. To determine whether any column contains missing values we can quickly check by `pd.isnull(df).any()`. And from here the total number of missing values can be summed using the command `pd.isnull(df).sum()`; in the case of this dataset, there are no missing values.
 
+```python
 feats = df_boston.shape[1]
 obs = df_boston.shape[0]
 print "Number of Housing Features: ", feats
 print "Number of Houses: ", obs
 ```
-
-***Number of Housing Features:  14***
-***Number of Houses:  506***
 
 Next, it would be useful to know the distribution the attributes. This can be easily computed via the df.describe function which computes basic statistics such as count, mean, min, max, and quartiles. All 14 attributes could not fit in the screenshot, however the figure below gives you an idea what the ouput would look like. 
 
@@ -75,14 +75,9 @@ To better understand our data, providing visualization helps us identify pattern
 
 
 ```python
-def histogram():
-    X,y = housing_features, housing_prices
-    pl.figure(figsize=(8,6))
-    pl.hist(y, bins =20, color = 'blue',alpha=0.5)
-    pl.suptitle('Boston Housing Prices', fontsize = 18)
-    pl.xlabel('Housing Prices [$10k]', fontsize = 16)
-    pl.ylabel('Frequency', fontsize = 16)
-    pl.show()
+pl.title("Histogram",fontsize=16)
+sns.distplot(housing_prices, kde=True,bins=20,color='b',
+             kde_kws={"color": "r", "lw": 2, "label": "KDE"})
 ```
 
 <img src = "https://tsmith5151.github.io/Blog/img/Boston/histogram1.png">
@@ -91,28 +86,26 @@ Furthermore, it is also useful to know whether some attributes are correlated wi
 
 
 ```python
-def scatter_plots():
-    pl.figure()
-    fig,axes = pl.subplots(4, 4, figsize=(14,18))
-    fig.subplots_adjust(wspace=.4, hspace=.4)
-    img_index = 0
-    for i in range(boston.feature_names.size):
-        row, col = i // 4, i % 4
-        axes[row][col].scatter(boston.data[:,i],boston.target)
-        axes[row][col].set_title(boston.feature_names[i] + ' and MEDV')
-        axes[row][col].set_xlabel(boston.feature_names[i])
-        axes[row][col].set_ylabel('MEDV')
-    pl.show()
+pl.figure()
+fig,axes = pl.subplots(4, 4, figsize=(14,18))
+fig.subplots_adjust(wspace=.4, hspace=.4)
+img_index = 0
+for i in range(boston.feature_names.size):
+    row, col = i // 4, i % 4
+    axes[row][col].scatter(boston.data[:,i],boston.target)
+    axes[row][col].set_title(boston.feature_names[i] + ' and MEDV')
+    axes[row][col].set_xlabel(boston.feature_names[i])
+    axes[row][col].set_ylabel('MEDV')
+pl.show()
 ```
 
 <img src = "https://tsmith5151.github.io/Blog/img/Boston/scatterplots.png">
 
 
 ```python
-def corrplot():
-    fig, ax = pl.subplots(figsize=(10,10))
-    pl.title("Correlation Plot",fontsize=16)
-    sns.corrplot(df_boston)
+fig, ax = pl.subplots(figsize=(10,10))
+pl.title("Correlation Plot",fontsize=16)
+sns.corrplot(df_boston)
 ```
 
 <img src = "https://tsmith5151.github.io/Blog/img/Boston/correlation.png">
@@ -120,12 +113,12 @@ def corrplot():
 
 TAX (full-value property-tax rate per $10,000) vs PTRATIO (pupil-teacher ratio by town)
 
- ```python
- x = 'PTRATIO'
-    y = 'TAX'
-    x_label, y_label = x,y
-    title = x + ' and '+ y
-    create_plot(x,y,x_label,y_label,title)
+```python
+x = 'PTRATIO'
+y = 'TAX'
+x_label, y_label = x,y
+title = x + ' and '+ y
+create_plot(x,y,x_label,y_label,title)
 ```
 
 <img src = "https://tsmith5151.github.io/Blog/img/Boston/ptratio_tax.png">
