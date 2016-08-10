@@ -11,44 +11,13 @@ The Boston housing market is highly competitive, and the goal is to be one of th
 
 ### Python Libraries:
 
-First, a list of the python packages that was utilized in the work is shown below. Note, I will be calling the Machine Learning classifiers and data mining tools from [Scikit-Learn](http://scikit-learn.org).
-
-
-```python
-%matplotlib inline
-import warnings
-warnings.filterwarnings('ignore')
-```
-
-```python
-import os
-import numpy as np
-import pylab as pl
-import matplotlib.pyplot as pl
-import seaborn as sns
-import pandas as pd
-
-#Libraries from Sci-kit Learn
-from sklearn import datasets
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.metrics import mean_squared_error, mean_absolute_error, make_scorer
-from sklearn.cross_validation import train_test_split
-from sklearn.grid_search import GridSearchCV
-#Linear Regression
-from sklearn.linear_model import LinearRegression
-from sklearn import linear_model
-#Polynomial Regression:
-from sklearn.linear_model import Ridge
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.pipeline import make_pipeline
-```
-
+A list of the python packages that were utilized in the work can be found in the original source code. Note, I will be calling the Machine Learning classifiers and data mining tools from [Scikit-Learn](http://scikit-learn.org).
 
 ### Data Exploration
 
-First, the Boston housing dataset from Scikit Learn is uploaded and stored in a Pandas DataFrame. Pandas is a powerful Python package commonly utilized in data analysis which provides fast, flexible, and expressive data structures designed to make working with “relational” or “labeled” data both easy and intuitive. Very simular to an SQL table or Excel spreadsheet, a DataFrame can be thought of as a dict-like container for Series objects with heterogeneously-typed columns. 
+First, the Boston housing dataset from Scikit Learn is uploaded and stored in a pandas DataFrame. Pandas is a powerful python package commonly utilized in data analysis which provides fast, flexible, and expressive data structures designed to make working with “relational” or “labeled” data both easy and intuitive. Very simular to an SQL table or Excel spreadsheet, a DataFrame can be thought of as a dict-like container for Series objects with heterogeneously-typed columns. 
 
-Note again that for the Boston Housing dataset it is already in the Pandas data structure via the example datasets available from Scikit-Learn. Some manipulation is necessary identify the target and feature columns of the DataFrame. If we were only given a plain CSV file, we can work with this as well. For example in Pandas we can call the read_csv function as shown below:
+Note again that for the Boston Housing dataset it is already in the pandas data structure via the example datasets available from Scikit-Learn. Some manipulation is necessary identify the target and feature columns of the DataFrame. If we were only given a plain CSV file, we can work with this as well. For example in Pandas we can call the read_csv function as shown below:
 
 ```python
 #If data was formatted as csv file
@@ -71,7 +40,7 @@ df_target = pd.DataFrame(housing_prices, columns =['MEDV'])
 df_boston = pd.concat([df_data, df_target,], axis = 1) #concat data/target
 
 
-Now that we have the data and it's stored in a Pandas DataFrame, we are ready to explore it. The DataFrame consists of 14 columns which are the attributes and 506 rows which are the individual observations. At this point, it would be good to examine if any values are missing. Missing values in Pandas are represented by `np.nan`. To determine whether any column contains missing values we can check by `pd.isnull(df).any()`. And from here the total number of missing values can be summed using the command `pd.isnull(df).sum()`; in this case there are no missing values in the dataset.
+Now that we have the data and it's stored in a pandas DataFrame, we are ready to explore it. The DataFrame consists of 14 columns which are the attributes and 506 rows which are the individual observations. At this point, it would be good to examine if any values are missing. Missing values in Pandas are represented by `np.nan`. To determine whether any column contains missing values we can quickly check by `pd.isnull(df).any()`. And from here the total number of missing values can be summed using the command `pd.isnull(df).sum()`; in the case of this dataset, there are no missing values.
 
 feats = df_boston.shape[1]
 obs = df_boston.shape[0]
@@ -102,7 +71,8 @@ df.quantile(q)
 ```
 
 
-To better understand our data, providing visualization helps us identify patterns and trends in our dataset. The simplist and easiest statistical metric to interpret is the histogram, which shows the distribution of median housing prices in the greater Boston area. Nearly 80 homes are valued approximately at $21,000. It is also useful to know whether some attributes are correlated with respect to each other and by how much? Scatter plots and correlation matrix correlations allow us to identify linear relationships between the features. Plotting the median value of homes (MEDV) vs several different housing features, a strong linear correlation for predicting the MEDV can be observed: as the number of rooms per house increases, so does the housing price -- this type of relationship would be expected. 
+To better understand our data, providing visualization helps us identify patterns and trends in our dataset. One of the simplist and easiest statistical metric to interpret is the histogram, which shows the distribution of median housing prices in the greater Boston area. Nearly 80 homes are valued approximately at $21,000. [Seaborn](https://stanford.edu/~mwaskom/software/seaborn/index.html) has [distplot](https://stanford.edu/~mwaskom/software/seaborn/generated/seaborn.distplot.html?highlight=distplot#seaborn.distplot) which is able to combine a histogram with a KDE (kernel density estimation) plot which basically looks like a smoothed histogram all into one plot.
+
 
 ```python
 def histogram():
@@ -114,6 +84,11 @@ def histogram():
     pl.ylabel('Frequency', fontsize = 16)
     pl.show()
 ```
+
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/histogram1.png">
+
+Furthermore, it is also useful to know whether some attributes are correlated with respect to each other and by how much? Scatter plots and correlation matrix correlations allow us to identify linear relationships between the features. Plotting the median value of homes (MEDV) vs several different housing features, a strong linear correlation for predicting the MEDV can be observed: as the number of rooms per house increases, so does the housing price -- this type of relationship would be expected. 
+
 
 ```python
 def scatter_plots():
@@ -130,12 +105,30 @@ def scatter_plots():
     pl.show()
 ```
 
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/scatterplots.png">
+
+
 ```python
 def corrplot():
     fig, ax = pl.subplots(figsize=(10,10))
     pl.title("Correlation Plot",fontsize=16)
     sns.corrplot(df_boston)
 ```
+
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/correlation.png">
+
+
+TAX (full-value property-tax rate per $10,000) vs PTRATIO (pupil-teacher ratio by town)
+
+ ```python
+ x = 'PTRATIO'
+    y = 'TAX'
+    x_label, y_label = x,y
+    title = x + ' and '+ y
+    create_plot(x,y,x_label,y_label,title)
+```
+
+<img src = "https://tsmith5151.github.io/Blog/img/Boston/ptratio_tax.png">
 
 
 ```python
@@ -157,66 +150,6 @@ def explore_city_data():
     print "Median Housing Price: ${:,.2f}".format(median_price)
     print "Standard Deviation: ${:,.2f}".format(std_price)
 ```
-
-```python
-def plot1():
-    x = 'CRIM'
-    y = 'LSTAT'
-    x_label, y_label = x,y
-    title = x + ' and '+ y
-    create_plot(x,y,x_label,y_label,title)
-    
-def plot2():
-    x = 'AGE'
-    y = 'RM'
-    x_label, y_label = x,y
-    title = x + ' and '+ y
-    create_plot(x,y,x_label,y_label,title)
-
-def plot3():
-    x = 'PTRATIO'
-    y = 'TAX'
-    x_label, y_label = x,y
-    title = x + ' and '+ y
-    create_plot(x,y,x_label,y_label,title)
-
-def create_plot(x,y,x_label,y_label,title):
-    hue = df_target
-    df = df_data
-    markerSize = df_target['MEDV']*6
-    g = sns.lmplot(x=x,y=y,data=df,
-               scatter_kws={'s':markerSize,'alpha':0.5,'linewidths':1,'edgecolor':'w','color':'g'},
-                   size=4.5, aspect=1.4)
-    g.set_xlabels(x_label, size = 12)
-    g.set_ylabels(y_label, size = 12)
-    axes = g.axes
-    sns.plt.title(title,fontsize=16)
-```
-
-```python
-if __name__ == "__main__":   
-    print "***Statistics***\n"
-    explore_city_data()
-    histogram()
-    corrplot()
-    scatter_plots()
-    print "\n***Scatter Plots (Features)***"
-    #plot1()
-    #plot2()
-    plot3()
-```
-
-
-<img src = "https://tsmith5151.github.io/Blog/img/Boston/histogram1.png">
-
-
-<img src = "https://tsmith5151.github.io/Blog/img/Boston/correlation.png">
-
-
-<img src = "https://tsmith5151.github.io/Blog/img/Boston/scatterplots.png">
-
-
-<img src = "https://tsmith5151.github.io/Blog/img/Boston/ptratio_tax.png">
 
 
 ### Training & Testing Data
